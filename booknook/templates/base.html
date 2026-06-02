@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>BookNook</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-gray-900" style="background-color: #fcf8f5;">
+
+    <nav class="flex justify-between px-6 py-4 border-b"
+         style="background-color: #efe5db; border-color: #e5d8cc;">
+        <a href="/" class="font-semibold text-lg">📚 BookNook</a>
+        <a href="/create" class="text-sm px-3 py-1 rounded hover:bg-[#e5d8cc]">
+            + Add Book
+        </a>
+    </nav>
+    
+    <main class="max-w-6xl mx-auto p-6">
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    
+    </body>
+</html>
