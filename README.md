@@ -54,3 +54,27 @@ flask init-db
 ```sh
 flask run
 ```
+---
+## Testing
+## 1. Initialize test database
+```sh
+CREATE DATABASE booknook_test;
+```
+## 2. Run tests
+```sh
+pytest
+```
+
+---
+
+### To-do
+- [X] Delete books
+- [X] Regex search
+- [X] Test setup
+- [ ] Edit books 
+- [ ] Use ISBN API
+- [ ] Add book statistics (Materialized view (top-rated books))
+- [ ] Login into app
+- [ ] Track deletions (trigger function)
+- [ ] Auto timestamp (trigger function)
+- [ ] Docker?

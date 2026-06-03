@@ -49,3 +49,10 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+def init_test_db(app):
+    with app.app_context():
+        db = get_db()
+        with open("schema.sql") as f:
+            db.cursor().execute(f.read())
+        db.commit()
