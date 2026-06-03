@@ -13,7 +13,7 @@ class BookModel:
     @staticmethod
     def get_by_id(book_id):
         db = get_db()
-        with db.cursor() as cur:
+        with db.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute(
                 "SELECT * FROM book WHERE id = %s",
                 (book_id,),
@@ -44,3 +44,13 @@ class BookModel:
                 """,
                 (title, author, review, rating, book_id),
             )
+
+    @staticmethod
+    def delete(book_id):
+        db = get_db()
+        with db.cursor() as cur:
+            cur.execute(
+                "DELETE FROM book WHERE id = %s",
+                (book_id,)
+            )
+        db.commit()

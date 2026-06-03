@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto">
+
+    <!-- Back button -->
+    <a href="/" class="text-sm text-gray-500 hover:text-black mb-6 inline-block">
+        ← Back to books
+    </a>
+
+    <!-- Main card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+
+        <!-- Header -->
+        <div class="flex justify-between items-start gap-4">
+
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">
+                    {{ book.title }}
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+                    by <span class="font-medium text-gray-700">{{ book.author }}</span>
+                </p>
+            </div>
+
+            <!-- Rating badge -->
+            <div class="bg-yellow-50 text-yellow-600 px-3 py-1 rounded-xl text-sm font-semibold">
+                ★ {{ book.rating or 0 }}/5
+            </div>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="my-6 border-t"></div>
+
+        <!-- Review section -->
+        <div class="mb-6">
+
+            <h3 class="text-sm font-semibold text-gray-700 mb-2">
+                Your Review
+            </h3>
+
+            <div class="bg-gray-50 rounded-xl p-4 text-gray-700 leading-relaxed whitespace-pre-line">
+                {{ book.review or "No review added yet." }}
+            </div>
+
+        </div>
+
+        <!-- Metadata -->
+        <div class="grid grid-cols-2 gap-4 text-sm text-gray-600">
+
+            {% if book.publisher %}
+            <div class="bg-gray-50 rounded-xl p-3">
+                <span class="font-medium text-gray-700">Publisher</span><br>
+                {{ book.publisher }}
+            </div>
+            {% endif %}
+
+            {% if book.created %}
+            <div class="bg-gray-50 rounded-xl p-3">
+                <span class="font-medium text-gray-700">Added</span><br>
+                {{ book.created }}
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex justify-between items-center">
+
+            <!-- Edit placeholder (optional later) -->
+            <a href="#" class="text-sm text-blue-600 hover:underline">
+                Edit book
+            </a>
+
+            <!-- Delete -->
+            <form method="POST"
+                  action="/delete/{{ book.id }}"
+                  onsubmit="return confirm('Delete this book permanently?');">
+
+                <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                    Delete Book
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
