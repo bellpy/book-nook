@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from booknook.models.book_model import BookModel
 import re
 
 bp = Blueprint("books", __name__)
 
 
-@bp.route("/")
+#@bp.route("/")
+@bp.route("/index")
 def index():
     books = BookModel.get_all()
 

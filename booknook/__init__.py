@@ -7,7 +7,7 @@ def create_app(test_config=None):
 
     app.config.from_mapping(
         SECRET_KEY="dev",
-        DATABASE_URL="postgresql://bell:password123@localhost:5432/booknook",
+        DATABASE_URL="postgresql://oscar:@localhost:5432/booknook",
     )
 
     if test_config:
