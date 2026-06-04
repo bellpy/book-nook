@@ -17,8 +17,8 @@
 
 <!-- Section header -->
 <div class="flex justify-between items-center mb-4">
-    <h2 class="text-lg font-semibold">Your Books</h2>
-    <a href="#" class="text-sm text-gray-500">View all</a>
+    <h2 class="text-lg font-semibold">Your Favourite Books</h2>
+    <a href="{{ url_for('books.index') }}" class="text-sm text-gray-500">View all</a>
 </div>
 
 <!-- Horizontal scroll -->
@@ -54,7 +54,7 @@
     {% endfor %}
 </div>
 
-<!-- Stats and quick add-->
+<!-- Stats and quick add
 <div class="mt-10 grid md:grid-cols-2 gap-6">
 
     <div class="bg-[#f6f1eb] rounded-xl p-6 flex items-center gap-4">
@@ -64,9 +64,6 @@
             <p class="text-sm text-gray-500">
                 {{ books|length }} books tracked
             </p>
-            <a href="/fav_books" class="text-sm text-blue-600">
-            Click to see your favourite books
-            </a>
         </div>
     </div>
 
@@ -77,6 +74,6 @@
         </a>
     </div>
 
-</div>
+</div> -->
 
 {% endblock %}

@@ -23,10 +23,10 @@ class UserModel:
         with db.cursor() as cur:
             cur.execute(
                 """
-                INSERT INTO "user" (id, username, password)
-                VALUES (%s, %s, %s)
+                INSERT INTO "user" (username, password)
+                VALUES (%s, %s)
                 """,
-                (random.randint(3, 100), username, password)
+                (username, password)
             )
 
     @staticmethod

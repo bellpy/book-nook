@@ -8,7 +8,7 @@ bp = Blueprint("books", __name__)
 #@bp.route("/")
 @bp.route("/index")
 def index():
-    books = BookModel.get_all()
+    books = BookModel.get_all(session['user'])
 
     return render_template(
         "index.html",
@@ -19,7 +19,7 @@ def index():
 def search():
     query = request.args.get("q", "")
 
-    books = BookModel.get_all()
+    books = BookModel.get_all(session['user'])
 
     if query:
         pattern = re.compile(query, re.IGNORECASE)
@@ -41,7 +41,7 @@ def create():
             author=request.form["author"],
             review=request.form["review"],
             rating=request.form.get("rating"),
-            user_id=1,  # placeholder
+            user_id=session['user'],
         )
 
         return redirect(url_for("books.index"))
@@ -85,3 +85,10 @@ def detail(id):
         "detail.html",
         book=book
     )
+
+@bp.route("/fav_books")
+def get_fav_books():
+
+    books = BookModel.get_fav_books()
+
+    return render_template("fav.html", books=books)

@@ -16,3 +16,9 @@ CREATE TABLE book (
     user_id INTEGER REFERENCES "user"(id),
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- CREATE TABLE read_by (
+--     rbid SERIAL PRIMARY KEY,
+--     uid INTEGER NOT NULL,
+--     bid INTEGER NOT NULL
+-- )

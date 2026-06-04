@@ -4,10 +4,15 @@ from psycopg2.extras import RealDictCursor
 class BookModel:
 
     @staticmethod
-    def get_all():
+    def get_all(bid):
         db = get_db()
         with db.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute("SELECT * FROM book ORDER BY created DESC")
+            cur.execute(
+                """
+                SELECT * FROM book WHERE user_id = %s ORDER BY created DESC
+                """,
+                (bid,)
+                )
             return cur.fetchall()
 
     @staticmethod
@@ -54,3 +59,19 @@ class BookModel:
                 (book_id,)
             )
         db.commit()
+
+    @staticmethod
+    def get_fav_books():
+        db = get_db()
+
+        with db.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute(
+                """
+                SELECT * FROM book 
+                WHERE rating = (SELECT MAX(rating) AS highest_rating 
+                FROM book)
+                ORDER BY created DESC
+                """
+            )
+
+            return cur.fetchall()
