@@ -39,6 +39,7 @@ def register():
             return render_template('auth/register.html', data=ret_str)
         else:
             UserModel.create(username=username, password=password)
+            session['user'] = UserModel.login(username=username, password=password)[0]
             return redirect(url_for('books.index'))
     else:
         ret_str = "Sign Up"
