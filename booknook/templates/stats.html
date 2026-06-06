@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="/index"
+   class="text-sm text-gray-500 hover:text-black inline-flex items-center gap-1 mb-4">
+    ← Back to books
+</a>
+
+<!-- Page header -->
+<div class="mb-8">
+    <h1 class="text-2xl font-bold">📚 Your Reading Dashboard</h1>
+    <p class="text-sm text-gray-500">Track your books, progress, and favourites</p>
+</div>
+
+<!-- Stats grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+
+    <div class="bg-[#f6f1eb] rounded-xl p-5 shadow-sm">
+        <p class="text-xs text-gray-500">Books read</p>
+        <p class="text-2xl font-bold">{{ books|length }}</p>
+    </div>
+
+    <div class="bg-[#f6f1eb] rounded-xl p-5 shadow-sm">
+        <p class="text-xs text-gray-500">Top Rated</p>
+        <p class="text-2xl font-bold">⭐ 5.0</p>
+    </div>
+
+    <div class="bg-[#f6f1eb] rounded-xl p-5 shadow-sm">
+        <p class="text-xs text-gray-500">Most read genre</p>
+        <p class="text-2xl font-bold">
+            {% if top_genre %}
+                {{ top_genre.name }}
+            {% else %}
+                —
+            {% endif %}
+        </p>
+    </div>
+
+</div>
+
+<!-- Section header -->
+<div class="mb-6">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">🏆 Your Top 3 Books</h2>
+        <span class="text-sm text-gray-500">Highest rated</span>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+
+        {% set ranked_books = books|sort(attribute="rating", reverse=True) %}
+
+        {% for book in ranked_books[:3] %}
+
+        <a href="/book/{{ book.id }}" class="block">
+
+            <div class="bg-[#f6f1eb] rounded-xl p-5 shadow-sm hover:shadow-md transition relative">
+
+                <div class="absolute top-3 right-3 text-xs font-bold text-gray-400">
+                    #{{ loop.index }}
+                </div>
+
+                <!-- Cover placeholder -->
+                <div class="h-32 bg-[#e8ddd2] rounded-lg mb-3 flex items-center justify-center text-xs text-gray-500">
+                    📖 Cover
+                </div>
+
+                <!-- Title -->
+                <p class="text-sm font-semibold leading-tight">
+                    {{ book.title }}
+                </p>
+
+                <!-- Author -->
+                <p class="text-xs text-gray-500">
+                    {{ book.author_name }}
+                </p>
+
+                <!-- Rating -->
+                <p class="text-sm font-bold mt-2">
+                    ⭐ {{ book.rating or 0 }}
+                </p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Insight section -->
+<div class="mt-10 grid md:grid-cols-2 gap-6">
+
+    <div class="bg-[#f6f1eb] rounded-xl p-6">
+        <h3 class="font-semibold mb-2">📊 Reading Insight</h3>
+        <p class="text-sm text-gray-600">
+            You currently have <b>{{ books|length }}</b> books in your library.
+            Keep going — your collection is growing.
+        </p>
+    </div>
+
+    <div class="bg-[#f6f1eb] rounded-xl p-6">
+        <h3 class="font-semibold mb-2">➕ Quick Actions</h3>
+
+        <a href="/create" class="text-sm text-blue-600 block hover:underline">
+            + Add a new book
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

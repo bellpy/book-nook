@@ -5,43 +5,43 @@ import re
 bp = Blueprint("books", __name__)
 
 
-#@bp.route("/")
 @bp.route("/index")
 def index():
-    books = BookModel.get_all(session['user'])
+    books = BookModel.get_all(session["user"])
+    return render_template("index.html", books=books)
 
-    return render_template(
-        "index.html",
-        books=books,
-    )
 
 @bp.route("/search")
 def search():
     query = request.args.get("q", "")
-
-    books = BookModel.get_all(session['user'])
+    books = BookModel.get_all(session["user"])
 
     if query:
         pattern = re.compile(query, re.IGNORECASE)
-
         books = [
-            book for book in books
-            if pattern.search(book["title"] or "") 
-            or pattern.search(book["author"] or "")
+            b for b in books
+            if pattern.search(b.get("title", "")) or pattern.search(b.get("author_name", ""))
         ]
 
     return render_template("index.html", books=books, query=query)
 
-@bp.route("/create", methods=("GET", "POST"))
+
+@bp.route("/create", methods=["GET", "POST"])
 def create():
     if request.method == "POST":
 
+        genres = request.form.get("genres")
+
         BookModel.create(
             title=request.form["title"],
-            author=request.form["author"],
-            review=request.form["review"],
+            isbn=request.form.get("isbn"),
+            page_count=request.form.get("page_count"),
+            author_name=request.form["author"],
+            user_id=session["user"],
+            genres=genres,
             rating=request.form.get("rating"),
-            user_id=session['user'],
+            review_text=request.form.get("review"),
+            status="read"
         )
 
         return redirect(url_for("books.index"))
@@ -49,46 +49,43 @@ def create():
     return render_template("create.html")
 
 
-@bp.route("/update/<int:id>", methods=("GET", "POST"))
+@bp.route("/update/<int:id>", methods=["GET", "POST"])
 def update(id):
-
     book = BookModel.get_by_id(id)
 
     if request.method == "POST":
 
+        genres = request.form.get("genres")
+
         BookModel.update(
             book_id=id,
             title=request.form["title"],
-            author=request.form["author"],
-            review=request.form["review"],
+            isbn=request.form.get("isbn"),
+            page_count=request.form.get("page_count"),
+            author_name=request.form["author"],
+            genres=genres,  # ✅ NEW
             rating=request.form.get("rating"),
+            review_text=request.form.get("review")
         )
 
-        return redirect(url_for("books.index"))
+        return redirect(url_for("books.detail", id=id))
 
-    return render_template(
-        "update.html",
-        book=book,
-    )
+    return render_template("update.html", book=book)
 
 @bp.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     BookModel.delete(id)
     return redirect(url_for("books.index"))
 
+
 @bp.route("/book/<int:id>")
 def detail(id):
     book = BookModel.get_by_id(id)
-    print(book)
+    return render_template("detail.html", book=book)
 
-    return render_template(
-        "detail.html",
-        book=book
-    )
 
-@bp.route("/fav_books")
-def get_fav_books():
-
+@bp.route("/dashboard")
+def fav_books():
     books = BookModel.get_fav_books()
-
-    return render_template("fav.html", books=books)
+    top_genre = BookModel.get_top_genre(session["user"])
+    return render_template("stats.html", books=books, top_genre=top_genre)

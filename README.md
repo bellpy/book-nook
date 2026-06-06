@@ -3,6 +3,13 @@ A comfy personal book tracker with statistics and more
 
 ---
 
+## Features
+- Add, delete and edit books
+- Regex supported search bar that searches book titles and authors
+- Reading dashboard with statistics
+- Login and sign up
+
+
 ## 🚀 How to run
 
 ### 1. Clone repository
@@ -37,13 +44,11 @@ You can verify it with ```\l``` and quit with ```\q```
 ```sh
 export FLASK_APP=booknook
 export FLASK_ENV=development
-export DATABASE_URL="postgresql://user:your_password@localhost:5432/booknook"
 ```
-
+In the file `__init__.py` replace `user` and `your_password` with your own PostgreSQL credentials
 ```sh
 export DATABASE_URL="postgresql://user:your_password@localhost:5432/booknook"
 ```
-Replace user and your_password with your actual PostgreSQL credentials.
 
 ### 6. Initialize database
 ```sh
@@ -71,10 +76,13 @@ pytest
 - [X] Delete books
 - [X] Regex search
 - [X] Test setup
-- [ ] Edit books 
+- [X] Edit books 
+- [X] Add book statistics (Materialized view (top-rated books))
+- [X] Login into app
+
+Extra:'
+- [ ] Cover images
 - [ ] Use ISBN API
-- [ ] Add book statistics (Materialized view (top-rated books))
-- [ ] Login into app
 - [ ] Track deletions (trigger function)
 - [ ] Auto timestamp (trigger function)
 - [ ] Docker?

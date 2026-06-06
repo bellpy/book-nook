@@ -2,11 +2,39 @@
 
 {% block content %}
 
-<div class="flex items-center justify-center py-6">
-    <div class="w-full max-w-lg">
-        <h1 class="text-xl font-semibold mb-6 text-center">{{ data }}</h1>
-        <a href="{{ url_for('auth.login') }}">Log In</a><br/>
-        <a href="{{ url_for('auth.register') }}">Sign Up</a>
+<div class="flex items-center justify-center min-h-[60vh]">
+    <div class="max-w-md w-full text-center">
+
+        <div class="mb-8">
+            <div class="text-6xl mb-4">📚</div>
+
+            <h1 class="text-3xl font-bold text-stone-800 mb-3">
+                Welcome to BookNook
+            </h1>
+
+            <p class="text-stone-600">
+                {{ data }}
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <a href="{{ url_for('auth.login') }}"
+               class="block w-full rounded-xl px-6 py-3 font-medium text-white transition hover:opacity-90 shadow-sm"
+               style="background-color: #8b5e3c;">
+                Log In
+            </a>
+
+            <a href="{{ url_for('auth.register') }}"
+               class="block w-full rounded-xl px-6 py-3 font-medium border transition hover:bg-stone-50"
+               style="border-color: #d8c4b2; color: #8b5e3c;">
+                Create Account
+            </a>
+        </div>
+
+        <div class="mt-8 text-sm text-stone-500">
+            Track your reading and rate your favourites
+        </div>
+
     </div>
 </div>
 

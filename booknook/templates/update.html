@@ -4,35 +4,57 @@
 
 <div class="flex items-center justify-center py-6">
     <div class="w-full max-w-lg">
-        <h1 class="text-xl font-semibold mb-6 text-center">Edit {{ book.title }}</h1>
+
+        <h1 class="text-xl font-semibold mb-6 text-center">
+            ✏️ Edit {{ book.title }}
+        </h1>
 
         <form method="post" class="space-y-4">
+
+            <!-- Title -->
             <input name="title"
-                   placeholder="{{ book.title }}"
+                   value="{{ book.title }}"
                    class="w-full px-4 py-3 rounded-xl bg-gray-100">
 
+            <!-- Author -->
             <input name="author"
-                   placeholder="{{ book.author }}"
+                   value="{{ book.author_name }}"
                    class="w-full px-4 py-3 rounded-xl bg-gray-100">
 
-            <textarea name="review"
-                      placeholder="{{ book.review }}"
-                      class="w-full px-4 py-3 rounded-xl bg-gray-100"></textarea>
+            <!-- Genres -->
+            <input name="genres"
+                   value="{{ book.genres | join(', ') }}"
+                   placeholder="Genres (comma separated)"
+                   class="w-full px-4 py-3 rounded-xl bg-gray-100">
 
+            <!-- Review text -->
+            <textarea name="review"
+                      class="w-full px-4 py-3 rounded-xl bg-gray-100"
+                      placeholder="Your review...">{% if book.reviews %}{{ book.reviews[0].text }}{% endif %}</textarea>
+
+            <!-- Rating -->
             <select name="rating"
                     class="w-full px-4 py-3 rounded-xl bg-gray-100">
+
                 <option value="">Rating</option>
-                <option value="1">★</option>
-                <option value="2">★★</option>
-                <option value="3">★★★</option>
-                <option value="4">★★★★</option>
-                <option value="5">★★★★★</option>
+
+                {% set current_rating = book.reviews[0].rating if book.reviews else 0 %}
+
+                <option value="1" {% if current_rating == 1 %}selected{% endif %}>★</option>
+                <option value="2" {% if current_rating == 2 %}selected{% endif %}>★★</option>
+                <option value="3" {% if current_rating == 3 %}selected{% endif %}>★★★</option>
+                <option value="4" {% if current_rating == 4 %}selected{% endif %}>★★★★</option>
+                <option value="5" {% if current_rating == 5 %}selected{% endif %}>★★★★★</option>
+
             </select>
 
+            <!-- Submit -->
             <button class="px-5 py-2 rounded-xl bg-black text-white hover:opacity-90 w-full">
                 Update
             </button>
+
         </form>
+
     </div>
 </div>
 
