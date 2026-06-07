@@ -7,7 +7,7 @@ import pytest
 from booknook import create_app
 from booknook.db import init_db
 
-TEST_DB = "postgresql://oscar: @localhost:5432/booknook_test"
+TEST_DB = "postgresql://bell:password123@localhost:5432/booknook_test"
 
 
 @pytest.fixture
@@ -24,4 +24,9 @@ def app():
 
 @pytest.fixture
 def client(app):
-    return app.test_client()
+    client = app.test_client()
+
+    with client.session_transaction() as sess:
+        sess["user"] = 1
+
+    return client
