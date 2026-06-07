@@ -36,6 +36,9 @@ def create():
 
         genres = request.form.get("genres")
 
+        rating = request.form.get("rating")
+        rating = int(rating) if rating else None
+
         BookModel.create(
             title=request.form["title"],
             isbn=request.form.get("isbn"),
@@ -43,7 +46,7 @@ def create():
             author_name=request.form["author"],
             user_id=session["user"],
             genres=genres,
-            rating=request.form.get("rating"),
+            rating=rating,
             review_text=request.form.get("review"),
             status="read"
         )
@@ -61,14 +64,17 @@ def update(id):
 
         genres = request.form.get("genres")
 
+        rating = request.form.get("rating")
+        rating = int(rating) if rating else None
+
         BookModel.update(
             book_id=id,
             title=request.form["title"],
             isbn=request.form.get("isbn"),
             page_count=request.form.get("page_count"),
             author_name=request.form["author"],
-            genres=genres,  # ✅ NEW
-            rating=request.form.get("rating"),
+            genres=genres,
+            rating=rating,
             review_text=request.form.get("review")
         )
 

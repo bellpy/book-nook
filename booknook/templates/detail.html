@@ -36,7 +36,7 @@
 
             <!-- Rating -->
             <div class="bg-yellow-50 text-yellow-600 px-3 py-1 rounded-xl text-sm font-semibold">
-                ★ {{ book.reviews[0].rating if book.reviews else 0 }}/5
+                ★ {{ book.reviews[0].rating if book.reviews and book.reviews[0].rating is not none else 0 }}/5
             </div>
         </div>
 

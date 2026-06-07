@@ -48,7 +48,7 @@
 
     <div class="grid md:grid-cols-3 gap-4">
 
-        {% set ranked_books = books|sort(attribute="rating", reverse=True) %}
+        {% set ranked_books = books|sort(attribute="avg_rating", reverse=True) %}
 
         {% for book in ranked_books[:3] %}
 

@@ -14,8 +14,7 @@ class BookModel:
             ON CONFLICT (name)
             DO UPDATE SET name = EXCLUDED.name
             RETURNING id
-            """,
-            (author_name,)
+            """, (author_name,)
         )
 
         return cur.fetchone()[0]
@@ -29,8 +28,7 @@ class BookModel:
             ON CONFLICT (name)
             DO UPDATE SET name = EXCLUDED.name
             RETURNING id
-            """,
-            (genre_name,)
+            """, (genre_name,)
         )
 
         return cur.fetchone()[0]
@@ -55,8 +53,7 @@ class BookModel:
                 INSERT INTO book_genre (book_id, genre_id)
                 VALUES (%s, %s)
                 ON CONFLICT DO NOTHING
-                """,
-                (book_id, genre_id)
+                """, (book_id, genre_id)
             )
     
     # -- Queries --
@@ -76,8 +73,7 @@ class BookModel:
                 LEFT JOIN user_book ub ON ub.book_id = b.id
                 WHERE ub.user_id = %s
                 ORDER BY b.created DESC
-                """,
-                (user_id,)
+                """, (user_id,)
             )
 
             return cur.fetchall()
@@ -95,8 +91,7 @@ class BookModel:
                 FROM book b
                 LEFT JOIN author a ON b.author_id = a.id
                 WHERE b.id = %s
-                """,
-                (book_id,)
+                """, (book_id,)
             )
 
             book = cur.fetchone()
@@ -110,8 +105,7 @@ class BookModel:
                 FROM genre g
                 JOIN book_genre bg ON bg.genre_id = g.id
                 WHERE bg.book_id = %s
-                """,
-                (book_id,)
+                """, (book_id,)
             )
 
             book["genres"] = [row["name"] for row in cur.fetchall()]
@@ -123,8 +117,7 @@ class BookModel:
                 JOIN "user" u ON u.id = r.user_id
                 WHERE r.book_id = %s
                 ORDER BY r.created DESC
-                """,
-                (book_id,)
+                """, (book_id,)
             )
 
             book["reviews"] = cur.fetchall()
@@ -315,45 +308,32 @@ class BookModel:
 
         with db:
             with db.cursor() as cur:
-                cur.execute(
-                    "DELETE FROM review WHERE book_id = %s",
-                    (book_id,)
-                )
-
-                cur.execute(
-                    "DELETE FROM user_book WHERE book_id = %s",
-                    (book_id,)
-                )
-
-                cur.execute(
-                    "DELETE FROM book_genre WHERE book_id = %s",
-                    (book_id,)
-                )
-
-                cur.execute(
-                    "DELETE FROM book WHERE id = %s",
-                    (book_id,)
-                )
+                cur.execute("DELETE FROM review WHERE book_id = %s", (book_id,))
+                cur.execute("DELETE FROM book_genre WHERE book_id = %s", (book_id,))
+                cur.execute("DELETE FROM user_book WHERE book_id = %s", (book_id,))
+                cur.execute("DELETE FROM book WHERE id = %s", (book_id,))
 
     @staticmethod
     def get_fav_books():
         db = get_db()
 
         with db.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute(
-                """
+            cur.execute("""
                 SELECT
-                    b.*,
-                    AVG(r.rating) AS avg_rating
+                    b.id,
+                    b.title,
+                    b.created,
+                    a.name AS author_name,
+                    COALESCE(AVG(r.rating), 0) AS avg_rating
                 FROM book b
-                JOIN review r ON r.book_id = b.id
-                GROUP BY b.id
+                LEFT JOIN review r ON r.book_id = b.id
+                LEFT JOIN author a ON b.author_id = a.id
+                GROUP BY b.id, a.name
                 ORDER BY avg_rating DESC NULLS LAST
-                """
-            )
+            """)
 
             return cur.fetchall()
-
+        
     @staticmethod
     def get_top_genre(user_id):
         db = get_db()

@@ -79,8 +79,9 @@ pytest
 - [X] Add book statistics (Materialized view (top-rated books))
 - [X] Login into app
 
-Extra:'
+Extra:
 - [ ] Cover images
+- [ ] Number of pages read
 - [ ] Use ISBN API
 - [ ] Track deletions (trigger function)
 - [ ] Auto timestamp (trigger function)
