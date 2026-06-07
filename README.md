@@ -53,9 +53,9 @@ You can verify it with ```\l``` and quit with ```\q```
 export FLASK_APP=booknook
 export FLASK_ENV=development
 ```
-In the file `__init__.py` replace `user` and `your_password` with your own PostgreSQL credentials
+In the file `__init__.py` replace `user` and `password` with your own PostgreSQL credentials
 ```sh
-export DATABASE_URL="postgresql://user:your_password@localhost:5432/booknook"
+export DATABASE_URL="postgresql://user:password@localhost:5432/booknook"
 ```
 
 ### 6. Initialize database
@@ -73,6 +73,12 @@ flask run
 ```sh
 CREATE DATABASE booknook_test;
 ```
+## 2. Set database
+In the file `conftest.py` replace `user` and `password` with your own PostgreSQL credentials
+```sh
+TEST_DB = "postgresql://user:password@localhost:5432/booknook_test"
+```
+
 ## 2. Run tests
 ```sh
 pytest
