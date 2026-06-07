@@ -4,11 +4,20 @@ A comfy personal book tracker with statistics and more
 ---
 
 ## Features
-- Add, delete and edit books
-- Regex supported search bar that searches book titles and authors
-- Reading dashboard with statistics
 - Login and sign up
+    - At the start of the application you can choose between "Log in" and "Create Account" 
+    - Inserting a "username" and "password" in "Create Account" signs you in immediately
+    - You can logout by pressing the "Logout" in the header
+- Add, delete and edit books
+    - You can add new book under the "+ Add Book" button seen in the header
+    - You can delete a book by clicking on a book you have added and clicking the "Delete Book" button
+    - You can edit a book by click on a book and clicking the "Edit Book" button and changing the information
+- Regex supported search bar that searches book titles and authors
+    - In the search bar in the index you can use regex expressions to search through added books
+- Reading dashboard with statistics
+    - In index you can click the link "Click to see your favorite books" and see statistics regarding read books
 
+---
 
 ## 🚀 How to run
 
