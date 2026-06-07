@@ -32,7 +32,6 @@ pip install -r requirements.txt
 Start PostgreSQL shell:
 ```sh
 psql postgres
-CREATE DATABASE booknook;
 ```
 Inside psql run
 ```sh

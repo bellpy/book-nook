@@ -17,14 +17,18 @@ def search():
     books = BookModel.get_all(session["user"])
 
     if query:
-        pattern = re.compile(query, re.IGNORECASE)
+        try:
+            pattern = re.compile(query, re.IGNORECASE)
+        except re.error:
+            pattern = re.compile(re.escape(query), re.IGNORECASE)
+
         books = [
             b for b in books
-            if pattern.search(b.get("title", "")) or pattern.search(b.get("author_name", ""))
+            if pattern.search(b.get("title", "")) 
+            or pattern.search(b.get("author_name", ""))
         ]
 
     return render_template("index.html", books=books, query=query)
-
 
 @bp.route("/create", methods=["GET", "POST"])
 def create():
